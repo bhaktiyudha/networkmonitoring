@@ -2,6 +2,11 @@ version: "2.1"
 networks:
   netmonk:
 
+volumes:
+  influxdb_vol:
+  mongodb_vol:
+  mongodb_config:
+
 services:
   kafka:
     image: spotify/kafka
@@ -12,19 +17,15 @@ services:
       netmonk:
         aliases:
           - kafka
+          - message-broker.jeager.ketitik.com
     environment:
-      - ADVERTISED_HOST=192.168.43.235
-      - ADVERTISED_PORT=9092
-      - LOG_RETENTION_HOURS=168
-      - AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka_plain_jaas.conf
     volumes:
-      - "${PWD}/conf_kafka/connect-distributed.properties:/opt/kafka_2.11-0.10.1.0/config/connect-distributed.properties"
-      - "${PWD}/conf_kafka/kafka_connect_jaas.conf:/opt/kafka_2.11-0.10.1.0/config/kafka_connect_jaas.conf"
-      - "${PWD}/conf_kafka/kafka_plain_jaas.conf:/opt/kafka_2.11-0.10.1.0/config/kafka_plain_jaas.conf"
-      - "${PWD}/conf_kafka/zookeper_jaas.conf:/opt/kafka_2.11-0.10.1.0/config/zookeper_jaas.conf"
-      - "${PWD}/bin_kafka/connect-distributed.sh:/opt/kafka_2.11-0.10.1.0/bin/connect-distributed.sh"
+      - "${PWD}/conf_kafka/kafka_plain_jaas.conf:/opt/kafka_plain_jaas.conf"
+      - "${PWD}/conf_kafka/server.properties:/opt/kafka_2.11-0.10.1.0/config/server.properties"
+      - "${PWD}/conf_kafka/zookeeper.properties:/opt/kafka_2.11-0.10.1.0/config/zookeeper.properties"
       - "${PWD}/bash_kafka:/home/ubuntu"
-    command: bash -c "/home/ubuntu/start-zookeper.sh && /home/ubuntu/start-kafka.sh"
+    command: bash -c "/home/ubuntu/start-all.sh"
 
   influxdb:
     image: influxdb
@@ -34,6 +35,8 @@ services:
       netmonk:
         aliases:
           - influxdb
+    volumes:
+      - "influxdb_vol:/var/lib/influxdb"
     environment:
      - INFLUXDB_DB=${INFLUX_DB}
      - INFLUXDB_ADMIN_ENABLED=true
@@ -67,3 +70,5 @@ services:
       - "27017:27017"
     volumes:
       - "${PWD}/conf_mongodb:/docker-entrypoint-initdb.d"
+      - "mongodb_vol:/data/db"
+      - "mongodb_config:/data/configdb"

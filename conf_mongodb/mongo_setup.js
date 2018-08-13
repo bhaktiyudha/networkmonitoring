@@ -1,5 +1,5 @@
 print("Begin Init Script.")
-db = db.getSiblingDB('jeagerdb');
+db = db.getSiblingDB('jeager_monitoring_db');
 db.users.insert({
 	uuid : "73a392e8-d3d9-4695-a935-e25ff48e714d",
 	username : "root",
@@ -10,6 +10,6 @@ db.users.insert({
 db.createUser({
 	user: 'raisaadriana',
 	pwd: '6Juni1990',
-	roles: [{ role: 'readWrite', db:'jeagerdb'}]
+	roles: [{ role: 'readWrite', db:'jeager_monitoring_db'}]
 })
 print("DONE.")
