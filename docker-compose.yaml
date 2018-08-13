@@ -3,7 +3,6 @@ networks:
   netmonk:
 
 services:
-
   kafka:
     image: spotify/kafka
     ports: 
@@ -16,6 +15,11 @@ services:
     environment:
       - ADVERTISED_HOST=192.168.43.235
       - ADVERTISED_PORT=9092
+      - LOG_RETENTION_HOURS=168
+    volumes:
+      - "${PWD}/conf_kafka:/home/ubuntu/opt/kafka/config"
+      - "${PWD}/bash_kafka:/home/ubuntu"
+    command: bash -c "/home/ubuntu/start-zookeper.sh && /home/ubuntu/start-kafka.sh"
 
   influxdb:
     image: influxdb
@@ -46,3 +50,15 @@ services:
       - kafka
       - influxdb
     restart: always
+
+  mongodb:
+    image: mongo
+    restart: always
+    networks:
+      netmonk:
+        aliases:
+          - mongonodemonk
+    ports:
+      - "27017:27017"
+    volumes:
+      - "${PWD}/conf_mongodb:/docker-entrypoint-initdb.d"

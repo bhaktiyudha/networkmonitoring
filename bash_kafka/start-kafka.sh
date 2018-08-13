@@ -1,0 +1,2 @@
+export KAFKA_OPTS="-Djava.security.auth.login.config=/home/ubuntu/opt/kafka/config/kafka_plain_jaas.conf"
+/home/ubuntu/opt/kafka/bin/kafka-server-start.sh /home/ubuntu/opt/kafka/config/server.properties
