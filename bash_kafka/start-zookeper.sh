@@ -1,2 +1,2 @@
-export KAFKA_OPTS="-Djava.security.auth.login.config=/home/ubuntu/opt/kafka/config/zookeeper_jaas.conf"
-/home/ubuntu/opt/kafka/bin/zookeeper-server-start.sh /home/ubuntu/opt/kafka/config/zookeeper.properties
+export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka_2.11-0.10.1.0/config/zookeeper_jaas.conf"
+/opt/kafka_2.11-0.10.1.0/bin/zookeeper-server-start.sh /opt/kafka_2.11-0.10.1.0/config/zookeeper.properties

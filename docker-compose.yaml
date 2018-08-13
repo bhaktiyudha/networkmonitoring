@@ -17,7 +17,8 @@ services:
       - ADVERTISED_PORT=9092
       - LOG_RETENTION_HOURS=168
     volumes:
-      - "${PWD}/conf_kafka:/home/ubuntu/opt/kafka/config"
+      - "${PWD}/conf_kafka:/opt/kafka_2.11-0.10.1.0/config"
+      - "${PWD}/bin_kafka:/opt/kafka_2.11-0.10.1.0/bin"
       - "${PWD}/bash_kafka:/home/ubuntu"
     command: bash -c "/home/ubuntu/start-zookeper.sh && /home/ubuntu/start-kafka.sh"
 
