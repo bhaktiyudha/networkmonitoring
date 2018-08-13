@@ -16,9 +16,13 @@ services:
       - ADVERTISED_HOST=192.168.43.235
       - ADVERTISED_PORT=9092
       - LOG_RETENTION_HOURS=168
+      - AUTO_CREATE_TOPICS_ENABLE=true
     volumes:
-      - "${PWD}/conf_kafka:/opt/kafka_2.11-0.10.1.0/config"
-      - "${PWD}/bin_kafka:/opt/kafka_2.11-0.10.1.0/bin"
+      - "${PWD}/conf_kafka/connect-distributed.properties:/opt/kafka_2.11-0.10.1.0/config/connect-distributed.properties"
+      - "${PWD}/conf_kafka/kafka_connect_jaas.conf:/opt/kafka_2.11-0.10.1.0/config/kafka_connect_jaas.conf"
+      - "${PWD}/conf_kafka/kafka_plain_jaas.conf:/opt/kafka_2.11-0.10.1.0/config/kafka_plain_jaas.conf"
+      - "${PWD}/conf_kafka/zookeper_jaas.conf:/opt/kafka_2.11-0.10.1.0/config/zookeper_jaas.conf"
+      - "${PWD}/bin_kafka/connect-distributed.sh:/opt/kafka_2.11-0.10.1.0/bin/connect-distributed.sh"
       - "${PWD}/bash_kafka:/home/ubuntu"
     command: bash -c "/home/ubuntu/start-zookeper.sh && /home/ubuntu/start-kafka.sh"
 
