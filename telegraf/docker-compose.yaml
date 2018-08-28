@@ -1,7 +1,8 @@
 version: "2.1"
 networks:
   netmonk:
-
+    external: true
+    
 services:
   telegraf:
     image: telegraf

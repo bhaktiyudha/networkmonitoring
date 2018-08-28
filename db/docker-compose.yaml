@@ -1,6 +1,7 @@
 version: "2.1"
 networks:
   netmonk:
+    external: true
 
 volumes:
   influxdb_vol:
