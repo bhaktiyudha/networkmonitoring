@@ -1,2 +1,7 @@
 #!/bin/sh
-docker-compose up -d
+cd db
+./up.sh
+cd ../backend
+./up.sh
+cd ../telegraf
+./up.sh
