@@ -1,0 +1,22 @@
+#User Domain Configuration File
+mode: development
+http-host: "0.0.0.0"
+http-port: 8081
+log:
+  to-file: false
+  file-path: "log/netmonk-bec-user.log"
+  level: "trace"
+  detail: true
+database:
+  mongodb:
+    host: "13.229.128.174"
+    port: 27017
+    username: "raisaadriana" 
+    password: "6Juni1990"
+    dbprefix: "jeager_monitoring"
+    authdb: "jeager_monitoring_db"
+apps:
+  kong:
+    api-url: "http://kong:8000"
+    api-admin-url: "http://kong:8001"
+    jwt-exp-hours: 3
