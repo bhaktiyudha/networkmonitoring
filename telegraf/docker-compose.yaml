@@ -1,0 +1,16 @@
+version: "2.1"
+networks:
+  netmonk:
+    external: true
+    
+services:
+  telegraf:
+    image: telegraf
+    networks:
+      netmonk:
+        aliases:
+          - telegraf
+    volumes:
+      - ${PWD}/conf_telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    privileged: true
+    restart: always

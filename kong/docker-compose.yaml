@@ -1,0 +1,82 @@
+version: "2.1"
+networks:
+  netmonk:
+    external: true
+
+services:
+
+  db-kong:
+    image: postgres:10.5
+    ports:
+      - 5432:5432
+    networks:
+      netmonk:
+        aliases:
+          - db-kong
+    volumes:
+      - ${PWD}/db-kong/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_PASSWORD=kongpass
+      - POSTGRES_DB=kong
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kong:
+    image: ganiamri/nm-bec-kong
+    depends_on:
+      db-kong:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+      - 8443:8443
+      - 8001:8001
+      - 8444:8444
+    networks:
+      netmonk:
+        aliases:
+          - kong
+    links:
+      - db-kong:db-kong
+    volumes:
+      - ${PWD}/conf/kong/docker-entrypoint.sh:/docker-entrypoint.sh
+      - ${PWD}/conf/kong/setup-gw-routes.sh:/setup-gw-routes.sh
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=db-kong
+      - KONG_PG_PORT=5432
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kongpass
+      - KONG_PG_DATABASE=kong
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+      - KONG_ADMIN_LISTEN_SSL=0.0.0.0:8444
+      - HEADERS_HOST=${HEADERS_HOST}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -I -s -L http://127.0.0.1:8000 || exit 1"]
+      interval: 5s
+      retries: 10
+    restart: on-failure
+
+  nm-bec-user:
+    image: ganiamri/nm-bec-user
+    depends_on:
+      kong:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    networks:
+      netmonk:
+        aliases:
+          - bec-user
+    volumes:
+      - ${PWD}/conf/bec-user:/home/netmonk/conf
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong

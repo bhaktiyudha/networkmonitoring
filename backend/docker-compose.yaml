@@ -1,0 +1,25 @@
+version: "2.1"
+networks:
+  netmonk:
+    external: true
+
+services:
+  api-service:
+    image: ketitik/jeager-backend-api-service
+    ports:
+      - "8080:8080"
+    networks:
+      netmonk:
+        aliases:
+          - api-service
+    environment:
+      - SERVICE_ADDRESS=:8080
+      - MONGODB_SERVER=mongodb:27017
+      - MONGODB_NAME=jeager_monitoring_db
+      - MONGODB_USERNAME=raisaadriana
+      - MONGODB_PASSWORD=6Juni1990
+      - INFLUXDB_SERVER=http://influxdb:8086
+      - INFLUXDB_NAME=jeager_monitoring_db
+      - INFLUXDB_USERNAME=actifed
+      - INFLUXDB_PASSWORD=obat_batuk
+    restart: always
