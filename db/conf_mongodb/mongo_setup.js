@@ -1,7 +1,7 @@
 print("Begin Init Script.")
 db = db.getSiblingDB('jeager_monitoring_db');
 db.users.insert({
-	uuid : "73a392e8-d3d9-4695-a935-e25ff48e714d",
+	uuid : "b8f239e1-0de0-45c9-8892-d8ed55cec341",
 	username : "root",
 	password : "10/w7o2juYBrGMh32/KbveULW9jk2tejpyUAD+uC6PE=",
 	roles : "root",

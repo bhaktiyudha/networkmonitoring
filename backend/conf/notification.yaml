@@ -1,0 +1,10 @@
+notificator:
+  - name: telebot-test
+    type: telegram-bot
+    configuration:
+      bot_token: 662450696:AAE16-1eyFmJfoMU8O4hckbR3SuRq5MfhpM
+    recipient_id:
+      - 64767841
+      - -301535445
+
+http_server_port: :4444

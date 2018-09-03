@@ -23,3 +23,28 @@ services:
       - INFLUXDB_USERNAME=actifed
       - INFLUXDB_PASSWORD=obat_batuk
     restart: always
+
+  anomaly-service:
+    image: ketitik/jeager-backend-anomaly-detector
+    ports:
+      - "8002:8002"
+    networks:
+      netmonk:
+        aliases:
+          - anomaly-service
+    volumes: 
+      - "${PWD}/conf/anomaly.yaml:/home/anomaly-detector/anomaly.yaml"
+    restart: always
+
+  notification-service:
+    image: ketitik/hermes-notificator-service
+    ports:
+      - "4444:4444"
+    networks:
+      netmonk:
+        aliases:
+          - notification-service
+    volumes:
+      - ${PWD}/conf/notification.yaml:/home/hermes-notificator/notification.yaml
+    restart: always
+    

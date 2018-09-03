@@ -1,0 +1,18 @@
+source_data:
+  mongodb_server: mongodb:27017
+  mongodb_name: jeager_monitoring_db
+  mongodb_username: raisaadriana
+  mongodb_password: 6Juni1990
+  influxdb_server: http://influxdb:8086
+  influxdb_name: jeager_monitoring_db
+  influxdb_username: actifed
+  influxdb_password: obat_batuk
+
+detectors:
+  - name: device-status-a
+    type: device-status
+    configuration:
+      interval: 1m
+      last_up_period: 3m
+    notification_brokers:
+      - http://notification-service:4444/telebot-test
