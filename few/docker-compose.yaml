@@ -1,0 +1,21 @@
+version: "2.1"
+networks:
+  netmonk:
+    external: true
+    
+services:
+  jnm-few:
+    image: ketitik/jnm-few
+    ports:
+      - "9001:80"
+    networks:
+      netmonk:
+        aliases:
+          - jnm-few
+    volumes:
+      - ${PWD}/few_conf:/home/jnm-few
+    environment: 
+      - BASE_API_URL=kong
+      - REFRESH_INTERVAL=60000
+      - HEADERS_HOST=kong
+    command: bash -c "/home/jnm-few/setup.sh && exec nginx -g 'daemon off;'"
