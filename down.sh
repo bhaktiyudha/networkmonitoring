@@ -7,3 +7,5 @@ cd ../kong
 ./down.sh
 cd ../backend
 ./down.sh
+cd ../few
+./up.sh

@@ -15,7 +15,7 @@ services:
     volumes:
       - ${PWD}/few_conf:/home/jnm-few
     environment: 
-      - BASE_API_URL=kong
+      - BASE_API_URL=http:\/\/kong
       - REFRESH_INTERVAL=60000
       - HEADERS_HOST=kong
     command: bash -c "/home/jnm-few/setup.sh && exec nginx -g 'daemon off;'"
