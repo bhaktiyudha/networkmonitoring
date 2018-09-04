@@ -12,6 +12,16 @@ INFLUX_PASSWORD=obat_batuk
 INFLUX_HTTP_AUTH=true
 INFLUX_DB=jeager_monitoring_db
 ```
+### Edit `.env` to set the basic configuration of Headers Kong.
+```bash
+HEADERS_HOST=yourdomain or your ip
+```
+### Edit `docker-compose` Environtment to set the basic configuration of Frontend.
+```bash
+ BASE_API_URL=http:\/\/yourkongdomain or ip
+ REFRESH_INTERVAL=60000(its mean 1 minutes refresh)
+ HEADERS_HOST=yourdomain or your ip
+```
 ### Edit `conf_mongodb/mongo_setup.js` to set the basic configuration of MongoDB.
 ```javascript
 ...
